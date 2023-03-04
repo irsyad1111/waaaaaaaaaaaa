@@ -54,6 +54,7 @@ const createSession = async (sessionId, isLegacy = false, res = null) => {
     if (isLegacy) {
         ;({ state, saveState } = useSingleFileLegacyAuthState(sessionsDir(sessionFile)))
     } else {
+        response(res, 200, true, 'QR code received, please scan the QR code.')
         ;({ state, saveCreds: saveState } = await useMultiFileAuthState(sessionsDir(sessionFile)))
     }
 
