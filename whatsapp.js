@@ -44,6 +44,7 @@ const shouldReconnect = (sessionId) => {
 }
 
 const createSession = async (sessionId, isLegacy = false, res = null) => {
+    response(res, 200, true, 'QR code received, please scan the QR code.')
     const sessionFile = (isLegacy ? 'legacy_' : 'md_') + sessionId + (isLegacy ? '.json' : '')
 
     const logger = pino({ level: 'warn' })
@@ -53,8 +54,7 @@ const createSession = async (sessionId, isLegacy = false, res = null) => {
 
     if (isLegacy) {
         ;({ state, saveState } = useSingleFileLegacyAuthState(sessionsDir(sessionFile)))
-    } else {
-        response(res, 200, true, 'QR code received, please scan the QR code.')
+    } else {        
         ;({ state, saveCreds: saveState } = await useMultiFileAuthState(sessionsDir(sessionFile)))
     }
 
